@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">VELORA</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="version">1.0.0</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    <string name="deleted_success">Data berhasil dihapus</string>
+    <string name="deleted_error">Data gagal dihapus</string>
+
+    <string name="saved">Data disimpan</string>
+    <string name="cant_access">Data tidak dapat diakses</string>
+    <string name="unsaved">Data gagal disimpan</string>
+    <string name="unmatch">Password tidak sama</string>
+    <string name="is_email">Masukkan email yang valid</string>
+    <string name="trouble">Terjadi kesalahan</string>
+
+    <string name="pw_success">Password berhasil diubah</string>
+    <string name="pw_failed">Password gagal diubah</string>
+    <string name="no_data">Tak ada data untuk ditampilkan</string>
+
+    <string name="empty">Data tak boleh kosong</string>
+    <string name="del_ensure">Anda akan menghapus data ini ?</string>
+    <string name="logout_ensure">Anda akan keluar dan menghapus data aplikasi ini ?</string>
+    <string name="title_activity_detail_event">DetailEventActivity</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
