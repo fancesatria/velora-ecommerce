@@ -8,66 +8,21 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 public class OrderModel {
-    private int id;
-    public String user_id, barang_id, harga, nama, jumlah, created_at, status;
+    public String snap_token, created_at, status_order, total_harga;
 
-    public OrderModel(int id, String user_id, String barang_id, String harga, String nama, String jumlah, String created_at, String status) {
-        this.id = id;
-        this.user_id = user_id;
-        this.barang_id = barang_id;
-        this.harga = harga;
-        this.nama = nama;
-        this.jumlah = jumlah;
+    public OrderModel(String snap_token, String created_at, String status, String total_harga) {
+        this.snap_token = snap_token;
         this.created_at = created_at;
-        this.status = status;
+        this.status_order = status;
+        this.total_harga = total_harga;
     }
 
-    public int getId() {
-        return id;
+    public String getSnap_token() {
+        return snap_token;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
-    }
-
-    public String getBarang_id() {
-        return barang_id;
-    }
-
-    public void setBarang_id(String barang_id) {
-        this.barang_id = barang_id;
-    }
-
-    public String getHarga() {
-        return harga;
-    }
-
-    public void setHarga(String harga) {
-        this.harga = harga;
-    }
-
-    public String getNama() {
-        return nama;
-    }
-
-    public void setNama(String nama) {
-        this.nama = nama;
-    }
-
-    public String getJumlah() {
-        return jumlah;
-    }
-
-    public void setJumlah(String jumlah) {
-        this.jumlah = jumlah;
+    public void setSnap_token(String snap_token) {
+        this.snap_token = snap_token;
     }
 
     public String getCreated_at() {
@@ -78,12 +33,20 @@ public class OrderModel {
         this.created_at = created_at;
     }
 
-    public String getStatus() {
-        return status;
+    public String getStatus_order() {
+        return status_order;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus_order(String status_order) {
+        this.status_order = status_order;
+    }
+
+    public String getTotal_harga() {
+        return total_harga;
+    }
+
+    public void setTotal_harga(String total_harga) {
+        this.total_harga = total_harga;
     }
 
     public String newDate() throws ParseException {

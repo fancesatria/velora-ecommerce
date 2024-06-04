@@ -39,7 +39,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     public void onBindViewHolder(@NonNull ProductAdapter.ViewHolder holder, int position) {
         ProductModel product = data.get(position);
         Glide.with(context).load(API.ROOT_URL+product.getGambar()).into(holder.bind.image);
-        holder.bind.name.setText(product.getNama());
+        holder.bind.name.setText(Modul.upperCaseFirst(product.getNama()));
         holder.bind.price.setText("Rp. "+ Modul.numberFormat(String.valueOf(Integer.valueOf(product.getHarga()))));
         holder.bind.cv.setOnClickListener(new View.OnClickListener() {
             @Override

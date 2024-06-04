@@ -2,9 +2,11 @@ package com.uas.nb_official.Helper;
 
 import com.uas.nb_official.Model.LoginModel;
 import com.uas.nb_official.Model.OrderModel;
+import com.uas.nb_official.Model.PaymentModel;
 import com.uas.nb_official.Model.ProductModel;
 import com.uas.nb_official.Model.RegisterModel;
 import com.uas.nb_official.Response.LoginResponse;
+import com.uas.nb_official.Response.OrderDetailResponse;
 import com.uas.nb_official.Response.RegisterResponse;
 import com.uas.nb_official.Response.PaymentResponse;
 
@@ -30,15 +32,15 @@ public interface Service {
     Call<List<ProductModel>> getDataProduct(@Path("id") int id);
 
     //Order
-    @GET("orders_api/user/{id}")
+    @GET("orders_api/user/{id}") // Index order
     Call<List<OrderModel>> getDataOrder(@Path("id") int id);
 
-    @POST("orders/update_status/{id}")
-    Call<Void> updateStatus(@Path("id") int id);
-    @POST("orders/{user_id}/{barang_id}/{jumlah}")
-    Call<PaymentResponse> createPayment(
-            @Path("user_id") String user_id,
-            @Path("barang_id") String barang_id,
-            @Path("jumlah") String jumlah
-    );
+    @GET("orders_api/detail/{snap_token}") // Order detail
+    Call<OrderDetailResponse> getOrderDetails(@Path("snap_token") String snapToken);
+
+    @POST("orders/update_status/{snap_token}") // Update status
+    Call<Void> updateStatus(@Path("snap_token") String snap_token);
+
+    @POST("orders") // Create order
+    Call<PaymentResponse> createPayment(@Body PaymentModel paymentModel);
 }

@@ -1,6 +1,7 @@
 package com.uas.nb_official.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,17 +16,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.uas.nb_official.Helper.Modul;
 import com.uas.nb_official.Model.OrderModel;
 import com.uas.nb_official.R;
+import com.uas.nb_official.Transaction.DetailOrder;
 import com.uas.nb_official.Transaction.OrderFragment;
 
 import java.text.ParseException;
 import java.util.List;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
-    private OrderFragment context;
+    private OrderFragment fragment;
     private List<OrderModel> data;
 
     public OrderAdapter(OrderFragment context, List<OrderModel> data) {
-        this.context = context;
+        this.fragment = context;
         this.data = data;
     }
 
@@ -44,23 +46,38 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        holder.nama.setText(orderModel.getNama());
-        holder.status.setText(orderModel.getStatus());
-        holder.jumlah.setText(orderModel.getJumlah());
-        holder.harga.setText("Rp. "+ Modul.numberFormat(String.valueOf(Integer.valueOf(orderModel.getHarga()) * Integer.valueOf(orderModel.getJumlah()))));
 
-        if (orderModel.getStatus().equalsIgnoreCase("success")) {
-            holder.viewColor.setBackgroundColor(ContextCompat.getColor(context.getContext(), R.color.teal));
+        holder.status.setText(orderModel.getStatus_order());
+        holder.total.setText("Rp. "+ Modul.numberFormat(String.valueOf(Integer.valueOf(orderModel.getTotal_harga()))));
+
+        if (orderModel.getStatus_order().equalsIgnoreCase("success")) {
+            holder.status.setBackgroundResource(R.drawable.background_status_teal);
             holder.btnBayar.setVisibility(View.GONE);
         } else {
-            holder.viewColor.setBackgroundColor(ContextCompat.getColor(context.getContext(), R.color.maroon));
-            holder.btnBayar.setVisibility(View.VISIBLE);
+            holder.status.setBackgroundResource(R.drawable.backgound_status_maroon);
+            holder.btnBayar.setVisibility(View.GONE);
         }
 
         holder.btnBayar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.updateStatus(orderModel.getId());
+                fragment.updateStatus(orderModel.getSnap_token());
+            }
+        });
+
+        holder.linearOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(fragment.getContext(), DetailOrder.class);
+                i.putExtra("snap_token", orderModel.getSnap_token());
+                i.putExtra("total_harga", orderModel.getTotal_harga());
+                i.putExtra("status_order", orderModel.getStatus_order());
+                try {
+                    i.putExtra("tanggal_transaksi", orderModel.newDate());
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+                fragment.startActivity(i);
             }
         });
     }
@@ -71,19 +88,17 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView nama, jumlah, harga, tanggal, status;
-        LinearLayout viewColor;
+        TextView total, tanggal, status;
         Button btnBayar;
+        LinearLayout linearOrder;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            nama = itemView.findViewById(R.id.txtBarang);
-            jumlah = itemView.findViewById(R.id.txtJumlah);
-            harga = itemView.findViewById(R.id.txtHarga);
+            total = itemView.findViewById(R.id.txtTotal);
             tanggal = itemView.findViewById(R.id.txtDate);
             status = itemView.findViewById(R.id.txtStatus);
-            viewColor = itemView.findViewById(R.id.viewColor);
             btnBayar = itemView.findViewById(R.id.btnBayar);
+            linearOrder = itemView.findViewById(R.id.linearOrder);
         }
     }
 }

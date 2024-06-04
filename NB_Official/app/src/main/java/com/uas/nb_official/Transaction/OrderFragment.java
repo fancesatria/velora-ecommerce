@@ -1,5 +1,6 @@
 package com.uas.nb_official.Transaction;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -86,6 +87,24 @@ public class OrderFragment extends Fragment {
         return bind.getRoot();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        fetchData();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        fetchData();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        fetchData();
+    }
+
     public void logout(){
         new AlertDialog.Builder(getContext())
                 .setTitle("Hapus Item")
@@ -95,7 +114,12 @@ public class OrderFragment extends Fragment {
                     startActivity(new Intent(getContext(), Login.class));
                     getActivity().finish();
                 })
-                .setNegativeButton("Tidak", null)
+                .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
                 .show();
     }
 
@@ -127,13 +151,13 @@ public class OrderFragment extends Fragment {
         });
     }
 
-    public void updateStatus(int id){
+    public void updateStatus(String snap_token){
         new AlertDialog.Builder(getContext())
                 .setTitle("Konfirmasi")
                 .setMessage("Update status pembayaran?")
                 .setPositiveButton("Iya", (dialog, which) -> {
                     LoadingDialog.load(getContext());
-                    Call<Void> call = API.getRetrofit(getContext()).updateStatus(id);
+                    Call<Void> call = API.getRetrofit(getContext()).updateStatus(snap_token);
                     call.enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
@@ -153,7 +177,12 @@ public class OrderFragment extends Fragment {
                         }
                     });
                 })
-                .setNegativeButton("Tidak", null)
+                .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
                 .show();
     }
 }

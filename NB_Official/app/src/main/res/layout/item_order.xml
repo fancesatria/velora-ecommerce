@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linearOrder"
     android:orientation="horizontal">
 
     <androidx.cardview.widget.CardView
@@ -25,46 +26,6 @@
             android:weightSum="2">
 
             <LinearLayout
-                android:id="@+id/viewColor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:background="@color/maroon">
-
-                <TextView
-                    android:id="@+id/txtStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:text="Pending"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:textSize="15sp" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:id="@+id/txtDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:text="18 May 2022"
-                    android:textColor="@color/white"
-                    android:textSize="13sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -83,7 +44,6 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/txtBarang"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -92,22 +52,62 @@
                             android:layout_marginRight="10dp"
                             android:textSize="16sp"
                             android:textStyle="bold"
-                            android:text="Kertas" />
+                            android:text="Total" />
+                        <TextView
+                            android:id="@+id/txtTotal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:textSize="14sp"
+                            android:text="Rp. 150.000" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
+
                         <TextView
-                            android:id="@+id/txtHarga"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="0dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="0dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:text="Tanggal " />
+
+                        <TextView
+                            android:id="@+id/txtDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginTop="5dp"
                             android:layout_marginBottom="10dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
-                            android:text="Rp. 150.000" />
+                            android:text="18 May 2022"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+                        <Button
+                            android:id="@+id/btnBayar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="center_vertical"
+                            android:text="Sudah Bayar"
+                            android:backgroundTint="#A5A5A5"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -120,48 +120,31 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         android:gravity="end|center_vertical"
                         android:layout_gravity="end">
 
                         <TextView
-                            android:id="@+id/txtJumlah"
+                            android:id="@+id/txtStatus"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="0dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
                             android:layout_marginLeft="10dp"
-                            android:textAlignment="viewEnd"
-                            android:gravity="end|center_vertical"
-                            android:textSize="19sp"
-                            android:textStyle="bold"
-                            android:text="0"
-                            tools:ignore="RtlCompat" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="0dp"
-                            android:layout_marginLeft="2dp"
                             android:layout_marginRight="10dp"
-                            android:textAlignment="viewEnd"
-                            android:gravity="end|center_vertical"
-                            android:textSize="13sp"
-                            android:text="Pcs"
-                            tools:ignore="RtlCompat" />
+                            android:textAlignment="textEnd"
+                            android:padding="5dp"
+                            android:text="Pending"
+                            android:background="@drawable/backgound_status_maroon"
+                            android:textStyle="bold"
+                            android:textSize="15sp"
+                            android:textColor="@android:color/white"/>
 
-                        <Button
-                            android:id="@+id/btnBayar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="5dp"
-                            android:gravity="center_vertical"
-                            android:text="Sudah Bayar"
-                            android:backgroundTint="#A5A5A5"
-                            android:visibility="gone"/>
+
                     </LinearLayout>
                 </LinearLayout>
+
 
 
             </LinearLayout>

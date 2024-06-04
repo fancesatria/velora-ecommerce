@@ -1,15 +1,14 @@
 package com.uas.nb_official.Response;
 
-import com.uas.nb_official.Model.PaymentModel;
-
 public class PaymentResponse {
     private boolean success;
-    private String message, snap_token;
+    private String message;
+    private String snap_token;
 
-    public PaymentResponse(boolean success, String message, String snap_token) {
+    public PaymentResponse(boolean success, String message, String snapToken) {
         this.success = success;
         this.message = message;
-        this.snap_token = snap_token;
+        this.snap_token = snapToken;
     }
 
     public boolean isSuccess() {

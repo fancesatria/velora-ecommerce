@@ -1,5 +1,6 @@
 package com.uas.nb_official.Cart;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.uas.nb_official.Helper.Modul;
 import com.uas.nb_official.Helper.SPHelper;
 import com.uas.nb_official.Auth.Login;
 import com.uas.nb_official.Model.CartItem;
+import com.uas.nb_official.Model.PaymentModel;
 import com.uas.nb_official.Response.PaymentResponse;
 import com.uas.nb_official.Transaction.Payment;
 import com.uas.nb_official.databinding.FragmentCartBinding;
@@ -63,42 +65,6 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
         return binding.getRoot();
     }
 
-//    private void setupCheckoutButton() {
-//        binding.btnCheckout.setOnClickListener(view -> {
-//            new AlertDialog.Builder(getContext())
-//                    .setTitle("Konfirmasi")
-//                    .setMessage("Beli sekarang??")
-//                    .setPositiveButton("Iya", (dialog, which) -> {
-//                        List<CartItem> selectedItems = new ArrayList<>();
-//
-//                        // Kumpulkan item yang dipilih
-//                        for (CartItem item : cartItems) {
-//                            if (item.isChecked()) {
-//                                selectedItems.add(item);
-//                                Log.d(TAG, "Item selected: " + item.getId() + ", quantity: " + item.getQuantity());
-//                            }
-//                        }
-//
-//                        if (!selectedItems.isEmpty()) {
-//                            // Buat permintaan pembayaran untuk setiap item yang dipilih
-//                            for (CartItem item : selectedItems) {
-//                                String userId = String.valueOf(spHelper.getIdPengguna());
-//                                String itemId = String.valueOf(item.getId());
-//                                String quantity = String.valueOf(item.getQuantity());
-//
-//                                Log.d(TAG, "Creating payment request for user: " + userId + ", item: " + itemId + ", quantity: " + quantity);
-//                                createPaymentRequest(userId, itemId, quantity);
-//                            }
-//                        } else {
-//                            Toast.makeText(getContext(), "Tidak ada item yang dipilih", Toast.LENGTH_SHORT).show();
-//                        }
-//                    })
-//                    .setNegativeButton("Tidak", null)
-//                    .show();
-//
-//        });
-//    }
-
     private void setupCheckoutButton() {
         binding.btnCheckout.setOnClickListener(view -> {
             new AlertDialog.Builder(getContext())
@@ -119,28 +85,23 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
                         }
 
                         if (!selectedItems.isEmpty()) {
-                            // Tampilkan Toast panjang dengan informasi item yang dipilih
-                            // Toast.makeText(getContext(), selectedItemsInfo.toString(), Toast.LENGTH_LONG).show();
+//                            Toast.makeText(getContext(), selectedItemsInfo.toString(), Toast.LENGTH_LONG).show();
 
-                            // Buat permintaan pembayaran untuk setiap item yang dipilih
-                            for (CartItem item : selectedItems) {
-                                String userId = String.valueOf(spHelper.getIdPengguna());
-                                String itemId = String.valueOf(item.getId());
-                                String quantity = String.valueOf(item.getQuantity());
-
-                                Log.d(TAG, "Creating payment request for user: " + userId + ", item: " + itemId + ", quantity: " + quantity);
-                                createPaymentRequest(userId, itemId, quantity);
-                            }
+                            createPaymentRequest(selectedItems);
                         } else {
                             Toast.makeText(getContext(), "Tidak ada item yang dipilih", Toast.LENGTH_SHORT).show();
                         }
                     })
-                    .setNegativeButton("Tidak", null)
+                    .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
                     .show();
 
         });
     }
-
 
     private void initCart() {
         spHelper = new SPHelper(getActivity());
@@ -187,9 +148,22 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
         updateTotalPriceAndCheckoutButton();
     }
 
-    private void createPaymentRequest(String userId, String barang_id, String jumlah) {
+    private void createPaymentRequest(List<CartItem> selectedItems) {
         LoadingDialog.load(getContext());
-        Call<PaymentResponse> call = API.getRetrofit(getContext()).createPayment(userId, barang_id, jumlah);
+
+        List<PaymentModel.Item> items = new ArrayList<>();
+        for (CartItem item : selectedItems) {
+            items.add(new PaymentModel.Item(String.valueOf(item.getId()), String.valueOf(item.getQuantity())));
+        }
+
+        PaymentModel paymentModel = new PaymentModel(spHelper.getIdPengguna(), items);
+
+        // Debugging step to check JSON conversion
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(paymentModel);
+        Log.d(TAG, "PaymentModel JSON: " + jsonString);
+
+        Call<PaymentResponse> call = API.getRetrofit(getContext()).createPayment(paymentModel);
         call.enqueue(new Callback<PaymentResponse>() {
             @Override
             public void onResponse(Call<PaymentResponse> call, Response<PaymentResponse> response) {
@@ -198,12 +172,10 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
                     PaymentResponse paymentResponse = response.body();
                     if (paymentResponse.isSuccess()) {
                         String snapToken = paymentResponse.getSnap_token();
-                        Log.d(TAG, "Payment successful: snapToken - " + snapToken);
 
                         Intent intent = new Intent(getContext(), Payment.class);
                         intent.putExtra("snap_token", snapToken);
                         intent.putExtra("total_price", totalPrice);
-                        intent.putExtra("id_barang", barang_id);
                         startActivity(intent);
                     } else {
                         Log.e(TAG, "Payment failed: " + paymentResponse.getMessage());
@@ -211,7 +183,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
                     }
                 } else {
                     Log.e(TAG, "Response not successful: " + response.message());
-                    Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), response+"", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -232,11 +204,16 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
                 .setMessage("Ingin keluar?")
                 .setPositiveButton("Iya", (dialog, which) -> {
                     spHelper.clearData();
-                    
+
                     startActivity(new Intent(getContext(), Login.class));
                     getActivity().finish();
                 })
-                .setNegativeButton("Tidak", null)
+                .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
                 .show();
     }
 }
