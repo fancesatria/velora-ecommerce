@@ -32,7 +32,7 @@ public class DetailOrder extends AppCompatActivity {
     OrderDetailAdapter adapter;
     List<OrderDetailModel> data = new ArrayList<>();
     String snapToken;
-    int total_harga;
+    String status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +55,10 @@ public class DetailOrder extends AppCompatActivity {
         bind.txtNominalTransaksi.setText(String.valueOf("Rp. "+Modul.numberFormat(getIntent().getStringExtra("total_harga"))));
         bind.txtTanggalTransaksi.setText(String.valueOf(getIntent().getStringExtra("tanggal_transaksi")));
 
-        bind.txtStatus.setText(getIntent().getStringExtra("status_order"));
-        if (getIntent().getStringExtra("status_order").equalsIgnoreCase("success")) {
+        status = getIntent().getStringExtra("status_order");
+        bind.txtStatus.setText(status);
+
+        if (status.equalsIgnoreCase("success")) {
             bind.txtStatus.setBackgroundResource(R.drawable.background_status_teal);
             bind.btnBayar.setVisibility(View.GONE);
         } else {
@@ -117,6 +119,10 @@ public class DetailOrder extends AppCompatActivity {
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             LoadingDialog.close();
                             if (response.isSuccessful()){
+                                status = "success";bind.txtStatus.setText("Success");
+                                bind.txtStatus.setBackgroundResource(R.drawable.background_status_teal);
+                                bind.btnBayar.setVisibility(View.GONE);
+
                                 SuccessDialog.message(DetailOrder.this, getString(R.string.saved), bind.getRoot());
 
                             } else {

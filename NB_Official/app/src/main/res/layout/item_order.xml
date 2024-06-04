@@ -107,6 +107,7 @@
                             android:layout_marginBottom="10dp"
                             android:gravity="center_vertical"
                             android:text="Sudah Bayar"
+                            android:visibility="gone"
                             android:backgroundTint="#A5A5A5"/>
                     </LinearLayout>
                 </LinearLayout>
