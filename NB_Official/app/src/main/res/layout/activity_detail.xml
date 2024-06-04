@@ -35,14 +35,14 @@
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Baju xyz"
+                android:text="Pakaian Nyaman"
                 android:textStyle="bold"
                 android:textSize="20sp"/>
             <TextView
                 android:id="@+id/price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Rp. 800.000"
+                android:text="Rp. 150.000"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:textStyle="bold"
@@ -52,7 +52,7 @@
                 android:id="@+id/tv_product_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Rasakan kenyamanan dan performa terbaik dengan bahan terbaik. Dirancang khusus untuk kenyamanan pengguna."
+                android:text="Nikmati kenyamanan maksimal dengan pakaian yang dirancang untuk segala aktivitas. Terbuat dari bahan yang adem dan tidak panas, menjamin kenyamanan sepanjang hari."
                 android:textSize="12sp"
                 android:layout_marginTop="8dp" />
 
@@ -60,7 +60,7 @@
                 android:id="@+id/tv_product_features"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Fitur Utama:"
+                android:text="Keunggulan:"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp" />
@@ -69,7 +69,8 @@
                 android:id="@+id/tv_product_features_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="- Material Berkualitas Tinggi: Terbuat dari bahan mesh yang ringan dan tahan lama, memberikan sirkulasi udara optimal untuk menjaga tubuh tetap sejuk dan kering.\n- Teknologi SuperCotton: Dilengkapi dengan teknologi cotton terbaru yang inovatif, menawarkan responsivitas dan kenyamanan superior pada setiap langkah.\n- Desain Ergonomis: Struktur desain yang mengikuti bentuk badan(fit), memberikan dukungan maksimal pada area tubuh, mengurangi risiko cedera.\n- Sol Karet Non-Slip: ."
+                android:layout_marginLeft="5dp"
+                android:text="- Bahan Adem: Terbuat dari material berkualitas tinggi yang tidak panas saat dipakai, menjaga kenyamanan dalam segala cuaca.\n- Warna Tahan Lama: Pewarnaan yang tidak mudah luntur meski sering dicuci, menjaga penampilan tetap prima.\n- Tekstur Halus: Tekstur pakaian yang halus dan lembut di kulit, memberikan kenyamanan ekstra.\n- Desain Modern: Potongan yang stylish dan cocok untuk berbagai kesempatan, baik formal maupun kasual."
                 android:textSize="12sp"
                 android:layout_marginTop="8dp" />
         </LinearLayout>
@@ -87,7 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:text="Total : Rp. 5000"
+            android:text="Total : Rp. 150.000"
             android:textAlignment="textEnd"
             android:textColor="@color/black"
             android:textSize="15sp"/>
@@ -130,7 +131,6 @@
             android:text="Masukkan Keranjang"/>
     </LinearLayout>
 
-    <!-- FrameLayout untuk menampung fragment -->
     <FrameLayout
         android:id="@+id/fragment_container"
         android:visibility="gone"
