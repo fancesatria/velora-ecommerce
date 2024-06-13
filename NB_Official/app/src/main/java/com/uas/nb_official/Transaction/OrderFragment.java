@@ -105,7 +105,48 @@ public class OrderFragment extends Fragment {
         fetchData();
     }
 
-    public void logout(){
+    public void fetchData() {
+        if (getContext() == null) {
+            return; // Exit if the context is not available
+        }
+
+        LoadingDialog.load(getContext());
+        Call<List<OrderModel>> karyaGetRespCall = API.getRetrofit(getContext()).getDataOrder(sp.getIdPengguna());
+        karyaGetRespCall.enqueue(new Callback<List<OrderModel>>() {
+            @Override
+            public void onResponse(Call<List<OrderModel>> call, Response<List<OrderModel>> response) {
+                LoadingDialog.close();
+                if (response.isSuccessful()) {
+                    if (response.body() == null || response.body().isEmpty()) {
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), getString(R.string.no_data), Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        data.clear();
+                        data.addAll(response.body());
+                        orderAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    if (getContext() != null) {
+                        ErrorDialog.message(getContext(), getString(R.string.cant_access), bind.getRoot());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<OrderModel>> call, Throwable t) {
+                LoadingDialog.close();
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    public void logout() {
+        if (getContext() == null) {
+            return;
+        }
         new AlertDialog.Builder(getContext())
                 .setTitle("Hapus Item")
                 .setMessage("Ingin keluar?")
@@ -114,44 +155,16 @@ public class OrderFragment extends Fragment {
                     startActivity(new Intent(getContext(), Login.class));
                     getActivity().finish();
                 })
-                .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                .setNegativeButton("Tidak", (dialog, which) -> {
 
-                    }
                 })
                 .show();
     }
 
-    public void fetchData(){
-        LoadingDialog.load(getContext());
-        Call<List<OrderModel>> karyaGetRespCall = API.getRetrofit(getContext()).getDataOrder(sp.getIdPengguna());
-        karyaGetRespCall.enqueue(new Callback<List<OrderModel>>() {
-            @Override
-            public void onResponse(Call<List<OrderModel>> call, Response<List<OrderModel>> response) {
-                LoadingDialog.close();
-                if(response.isSuccessful()){
-                    if (response.body().size() == 0 || response.body()==null){
-                        Toast.makeText(getContext(), getString(R.string.no_data), Toast.LENGTH_SHORT).show();
-                    } else {
-                        data.clear();
-                        data.addAll(response.body());
-                        orderAdapter.notifyDataSetChanged();
-                    }
-                } else {
-                    ErrorDialog.message(getContext(), getString(R.string.cant_access), bind.getRoot());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<OrderModel>> call, Throwable t) {
-                LoadingDialog.close();
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-    public void updateStatus(String snap_token){
+    public void updateStatus(String snap_token) {
+        if (getContext() == null) {
+            return; // Exit if the context is not available
+        }
         new AlertDialog.Builder(getContext())
                 .setTitle("Konfirmasi")
                 .setMessage("Update status pembayaran?")
@@ -162,27 +175,31 @@ public class OrderFragment extends Fragment {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             LoadingDialog.close();
-                            if (response.isSuccessful()){
-                                SuccessDialog.message(getContext(), getString(R.string.saved), bind.getRoot());
+                            if (response.isSuccessful()) {
+                                if (getContext() != null) {
+                                    SuccessDialog.message(getContext(), getString(R.string.saved), bind.getRoot());
+                                }
                                 fetchData();
                             } else {
-                                ErrorDialog.message(getContext(), getString(R.string.unsaved), bind.getRoot());
+                                if (getContext() != null) {
+                                    ErrorDialog.message(getContext(), getString(R.string.unsaved), bind.getRoot());
+                                }
                             }
                         }
 
                         @Override
                         public void onFailure(Call<Void> call, Throwable t) {
                             LoadingDialog.close();
-                            Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                            if (getContext() != null) {
+                                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
                 })
-                .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                .setNegativeButton("Tidak", (dialog, which) -> {
 
-                    }
                 })
                 .show();
     }
+
 }

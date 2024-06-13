@@ -17,8 +17,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class API {
-    public static String BASE_URL = "https://velora-client.digitalin-aja.com/api/";
-    public static String ROOT_URL = "https://velora-client.digitalin-aja.com/";
+    // Server hosting
+    // public static String BASE_URL = "https://velora-client.digitalin-aja.com/api/";
+    // public static String ROOT_URL = "https://velora-client.digitalin-aja.com/";
+
+    public static String BASE_URL = "http://192.168.131.126:8000/api/";
+    public static String ROOT_URL = "http://192.168.131.126:8000/";
 
     public static Service getRetrofit(Context context) {
         SPHelper sp = new SPHelper(context);

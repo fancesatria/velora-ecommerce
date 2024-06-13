@@ -107,12 +107,19 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
         spHelper = new SPHelper(getActivity());
         cartItems = getCartItems(spHelper);
 
+        if (cartItems == null || cartItems.isEmpty()) {
+            if (getContext() != null) {
+                Toast.makeText(getContext(), "Tak ada item untuk ditampilkan", Toast.LENGTH_SHORT).show();
+            }
+        }
+
         cartAdapter = new CartAdapter(cartItems, getActivity(), this);
         binding.item.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.item.setAdapter(cartAdapter);
 
         updateTotalPriceAndCheckoutButton();
     }
+
 
     private List<CartItem> getCartItems(SPHelper spHelper) {
         List<String> cartItemsJson = spHelper.getCartItems();

@@ -35,7 +35,7 @@ public interface Service {
     @GET("orders_api/user/{id}") // Index order
     Call<List<OrderModel>> getDataOrder(@Path("id") int id);
 
-    @GET("orders_api/detail/{snap_token}") // Order detail
+    @GET("orders/detail/{snap_token}") // Order detail
     Call<OrderDetailResponse> getOrderDetails(@Path("snap_token") String snapToken);
 
     @POST("orders/update_status/{snap_token}") // Update status
